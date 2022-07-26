@@ -4,6 +4,10 @@ from algosdk.v2client import algod
 from algosdk import mnemonic
 from algosdk import transaction
 
+mnemonic_secret = "believe release spot good assault sheriff laundry present grain fan lyrics employ track shine volume hollow segment bread analyst north bird chat wise abstract repair"
+sk = mnemonic.to_private_key(mnemonic_secret)
+pk = mnemonic.to_public_key(mnemonic_secret)
+
 #Connect to Algorand node maintained by PureStake
 algod_address = "https://testnet-algorand.api.purestake.io/ps2"
 algod_token = "B3SU4KcVKi94Jap2VXkK83xx38bsv95K5UZm2lab"
@@ -23,6 +27,10 @@ def send_tokens( receiver_pk, tx_amount ):
     last_valid_round = params.last
 
     #Your code here
+   
+    txn = Transaction.PaymentTxn(pk, tx_fee, first_valid_round, last_valid_round, gen_hash, receiver_pk, tx_amount)
+    signed_txn = txn.sign(sk)
+    txid = send_transaction(txn)
 
     return sender_pk, txid
 
